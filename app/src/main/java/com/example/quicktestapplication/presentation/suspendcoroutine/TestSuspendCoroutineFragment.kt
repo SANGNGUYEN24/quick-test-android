@@ -19,7 +19,9 @@ class TestSuspendCoroutineFragment: BaseFragment() {
             TestSuspendFragmentContent()
         }
         lifecycleScope.launch {
-            viewModel.fakeSuspend()
+//            viewModel.fakeSuspend()
+//            viewModel.testLoopSuspend()
+            viewModel.testException()
         }
     }
 }
