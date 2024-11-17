@@ -1,19 +1,32 @@
 package com.example.quicktestapplication
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.quicktestapplication.ui.theme.QuickTestApplicationTheme
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.quicktestapplication.presentation.MainFragment
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+    @OptIn(ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            QuickTestApplicationTheme {
-                WebViewBase64()
-            }
-        }
+        setContentView(R.layout.activity_layout)
+        supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            MainFragment()
+        ).commit()
     }
 }
