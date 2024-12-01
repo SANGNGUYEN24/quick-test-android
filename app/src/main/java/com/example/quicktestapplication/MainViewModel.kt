@@ -6,10 +6,20 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quicktestapplication.coroutines.CoroutinePlatformTracker
+import com.example.quicktestapplication.pdfrender.PDFService
 import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.coroutines.coroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -49,7 +59,7 @@ class MainViewModel : ViewModel() {
             viewModelScope.launch {
                 a!!
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
 
         }
     }
@@ -57,5 +67,4 @@ class MainViewModel : ViewModel() {
     suspend fun getContextSuspendFunction(context: Context) {
         Toast.makeText(context, coroutineContext[CoroutineName]?.name, Toast.LENGTH_SHORT).show()
     }
-
 }

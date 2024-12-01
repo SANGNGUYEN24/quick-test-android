@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.miui.easygo.permission.READ_PERMISSION"/>
+    <uses-permission android:name="com.miui.easygo.permission.READ_PERMISSION"/>
+    <uses-permission android:name="miui.permission.READ_STEPS"/>
+
+    <queries>
+        <package android:name="com.miui.securitycenter"/>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,10 +29,22 @@
             android:theme="@style/QuickTestApplication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".shortcut.ShortcutPinnedReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT" />
+            </intent-filter>
+        </receiver>
+
+        <uses-library
+            android:name="com.miui.easygo"
+            android:required="false"/>
+
     </application>
 
 </manifest>

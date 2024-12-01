@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import com.example.quicktestapplication.ui.theme.QuickTestApplicationTheme
 
 fun setComposeViewContent(composeView: ComposeView?, content: @Composable () -> Unit) {
@@ -45,14 +46,14 @@ fun MyTopAppBar(title: String) {
 }
 
 @Composable
-fun BaseFragmentContent(actionBarTitle: String, content: @Composable (paddingValues: PaddingValues) -> Unit) {
+fun BaseFragmentContent(actionBarTitle: String, content: @Composable (topPadding: Dp) -> Unit) {
     QuickTestApplicationTheme {
         Scaffold(
             topBar = {
                 MyTopAppBar(actionBarTitle)
             }
         ) { padding ->
-            content(padding)
+            content(padding.calculateTopPadding())
         }
     }
 }

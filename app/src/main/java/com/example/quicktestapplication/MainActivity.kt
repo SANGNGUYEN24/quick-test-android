@@ -1,5 +1,6 @@
 package com.example.quicktestapplication
 
+import android.graphics.pdf.PdfRenderer
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.example.quicktestapplication.presentation.MainFragment
+import com.example.quicktestapplication.utils.ToastWrapper.showToast
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     @OptIn(ExperimentalLayoutApi::class)
@@ -28,5 +32,11 @@ class MainActivity : AppCompatActivity() {
             R.id.fragment_container,
             MainFragment()
         ).commit()
+
+        lifecycleScope.launch {
+            if (intent.hasExtra("source")) {
+                showToast(this@MainActivity, "Open app from ${intent.getStringExtra("source")}")
+            }
+        }
     }
 }
