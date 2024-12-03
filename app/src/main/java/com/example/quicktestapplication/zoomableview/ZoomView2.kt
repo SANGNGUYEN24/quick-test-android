@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import kotlin.math.abs
@@ -424,5 +425,9 @@ class ZoomView2 : FrameLayout {
         getRootView().invalidate()
         invalidate()
         // }
+    }
+
+    private fun log(msg: String) {
+        Log.d("sangnd", msg)
     }
 }
