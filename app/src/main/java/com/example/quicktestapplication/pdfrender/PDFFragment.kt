@@ -1,6 +1,7 @@
 package com.example.quicktestapplication.pdfrender
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.pdf.PdfRenderer
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
@@ -31,6 +32,13 @@ class PDFFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.zoomView.apply {
+            setMiniMapEnabled(true)
+            minimumWidth = 600
+            minimumHeight = 1200
+            setMiniMapColor(Color.RED)
+            setMiniMapCaption("Sang vip pro")
+        }
         lifecycleScope.launch {
             val baseUrl = "https://www.antennahouse.com/"
 //            val baseUrl = "https://ontheline.trincoll.edu"

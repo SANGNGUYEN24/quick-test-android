@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         tools:text="# page = 3" />
 
-    <com.example.quicktestapplication.zoomableview.ZoomView
+    <com.example.quicktestapplication.zoomableview.ZoomView2
+        android:id="@+id/zoom_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             tools:itemCount="2"
             tools:listitem="@layout/item_pdf_page" />
-    </com.example.quicktestapplication.zoomableview.ZoomView>
+    </com.example.quicktestapplication.zoomableview.ZoomView2>
 
 
 </LinearLayout>

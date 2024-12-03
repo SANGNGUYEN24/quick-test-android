@@ -15,4 +15,20 @@ class URLTest {
         println(url.host)
         println("${url.protocol}://${url.host}/")
     }
+
+    @Test
+    fun testMimeTypeDataUrl() {
+        var url = "data://image/jpeg;base64..."
+        var type: String? = null
+        // Data URL: data://image/jpeg;base64...
+        val dataUrlPrefix = "data://"
+        if (url.startsWith(dataUrlPrefix)) {
+            val mimeStart = url.indexOf(dataUrlPrefix)
+            val mimeEnd = url.indexOf(';')
+            type = url.substring(mimeStart + dataUrlPrefix.length, mimeEnd)
+        }
+        println("-------")
+        println(type)
+        println("-------")
+    }
 }
