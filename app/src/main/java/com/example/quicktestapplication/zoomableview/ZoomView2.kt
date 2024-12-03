@@ -172,10 +172,10 @@ class ZoomView2 : FrameLayout {
     }
 
     private fun processSingleTouchEvent(ev: MotionEvent) {
-        val x = ev.getX()
-        val y = ev.getY()
+        val x = ev.x
+        val y = ev.y
 
-        val w = miniMapHeight * getWidth().toFloat() / getHeight()
+        val w = miniMapHeight * width.toFloat() / height
         val h = miniMapHeight.toFloat()
         val touchingMiniMap = x >= 10.0f && x <= 10.0f + w && y >= 10.0f && y <= 10.0f + h
 
@@ -187,19 +187,19 @@ class ZoomView2 : FrameLayout {
     }
 
     private fun processSingleTouchOnMinimap(ev: MotionEvent) {
-        val x = ev.getX()
-        val y = ev.getY()
+        val x = ev.x
+        val y = ev.y
 
-        val w = miniMapHeight * getWidth().toFloat() / getHeight()
+        val w = miniMapHeight * width.toFloat() / height
         val h = miniMapHeight.toFloat()
-        val zx = (x - 10.0f) / w * getWidth()
-        val zy = (y - 10.0f) / h * getHeight()
+        val zx = (x - 10.0f) / w * width
+        val zy = (y - 10.0f) / h * height
         smoothZoomTo(smoothZoom, zx, zy)
     }
 
     private fun processSingleTouchOutsideMinimap(ev: MotionEvent) {
-        val x = ev.getX()
-        val y = ev.getY()
+        val x = ev.x
+        val y = ev.y
         var lx = x - touchStartX
         var ly = y - touchStartY
         val l = hypot(lx, ly)
@@ -208,7 +208,7 @@ class ZoomView2 : FrameLayout {
         touchLastX = x
         touchLastY = y
 
-        when (ev.getAction()) {
+        when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
                 touchStartX = x
                 touchStartY = y
@@ -224,7 +224,7 @@ class ZoomView2 : FrameLayout {
             MotionEvent.ACTION_MOVE -> if (scrolling || (smoothZoom > 1.0f && l > 30.0f)) {
                 if (!scrolling) {
                     scrolling = true
-                    ev.setAction(MotionEvent.ACTION_CANCEL)
+                    ev.action = MotionEvent.ACTION_CANCEL
                     super.dispatchTouchEvent(ev)
                 }
                 smoothZoomX -= dx / zoom
@@ -239,10 +239,10 @@ class ZoomView2 : FrameLayout {
                         if (smoothZoom == 1.0f) {
                             smoothZoomTo(maxZoom, x, y)
                         } else {
-                            smoothZoomTo(1.0f, getWidth() / 2.0f, getHeight() / 2.0f)
+                            smoothZoomTo(1.0f, width / 2.0f, height / 2.0f)
                         }
                         lastTapTime = 0
-                        ev.setAction(MotionEvent.ACTION_CANCEL)
+                        ev.action = MotionEvent.ACTION_CANCEL
                         super.dispatchTouchEvent(ev)
                         return
                     }
@@ -256,12 +256,12 @@ class ZoomView2 : FrameLayout {
         }
 
         ev.setLocation(
-            zoomX + (x - 0.5f * getWidth()) / zoom,
-            zoomY + (y - 0.5f * getHeight()) / zoom
+            zoomX + (x - 0.5f * width) / zoom,
+            zoomY + (y - 0.5f * height) / zoom
         )
 
-        ev.getX()
-        ev.getY()
+        ev.x
+        ev.y
 
         super.dispatchTouchEvent(ev)
     }
@@ -287,7 +287,7 @@ class ZoomView2 : FrameLayout {
         val ld: Float = abs((d - startd))
 
         atan2((y2 - y1).toDouble(), (x2 - x1).toDouble())
-        when (ev.getAction()) {
+        when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
                 startd = d
                 pinching = false
@@ -308,7 +308,7 @@ class ZoomView2 : FrameLayout {
             else -> pinching = false
         }
 
-        ev.setAction(MotionEvent.ACTION_CANCEL)
+        ev.action = MotionEvent.ACTION_CANCEL
         super.dispatchTouchEvent(ev)
     }
 
@@ -330,12 +330,12 @@ class ZoomView2 : FrameLayout {
         smoothZoomX = clamp(
             0.5f * width / smoothZoom,
             smoothZoomX,
-            width - 0.5f * getWidth() / smoothZoom
+            width - 0.5f * width / smoothZoom
         )
         smoothZoomY = clamp(
-            0.5f * getHeight() / smoothZoom,
+            0.5f * height / smoothZoom,
             smoothZoomY,
-            getHeight() - 0.5f * getHeight() / smoothZoom
+            height - 0.5f * height / smoothZoom
         )
 
         zoomX = lerp(bias(zoomX, smoothZoomX, 0.1f), smoothZoomX, 0.35f)
@@ -350,16 +350,16 @@ class ZoomView2 : FrameLayout {
             ) > 0.0000001f
 
         // nothing to draw
-        if (getChildCount() == 0) {
+        if (childCount == 0) {
             return
         }
 
         // prepare matrix
-        m.setTranslate(0.5f * getWidth(), 0.5f * getHeight())
+        m.setTranslate(0.5f * width, 0.5f * height)
         m.preScale(zoom, zoom)
         m.preTranslate(
-            -clamp(0.5f * getWidth() / zoom, zoomX, getWidth() - 0.5f * getWidth() / zoom),
-            -clamp(0.5f * getHeight() / zoom, zoomY, getHeight() - 0.5f * getHeight() / zoom)
+            -clamp(0.5f * width / zoom, zoomX, width - 0.5f * width / zoom),
+            -clamp(0.5f * height / zoom, zoomY, height - 0.5f * height / zoom)
         )
 
         // get view
@@ -387,13 +387,13 @@ class ZoomView2 : FrameLayout {
         // draw minimap
         if (showMinimap) {
             if (miniMapHeight < 0) {
-                miniMapHeight = getHeight() / 4
+                miniMapHeight = height / 4
             }
 
             canvas.translate(10.0f, 10.0f)
 
             p.setColor(-0x80000000 or (0x00ffffff and miniMapColor))
-            val w = miniMapHeight * getWidth().toFloat() / getHeight()
+            val w = miniMapHeight * width.toFloat() / height
             val h = miniMapHeight.toFloat()
             canvas.drawRect(0.0f, 0.0f, w, h, p)
 
@@ -406,8 +406,8 @@ class ZoomView2 : FrameLayout {
             }
 
             p.setColor(-0x80000000 or (0x00ffffff and miniMapColor))
-            val dx = w * zoomX / getWidth()
-            val dy = h * zoomY / getHeight()
+            val dx = w * zoomX / width
+            val dy = h * zoomY / height
             canvas.drawRect(
                 dx - 0.5f * w / zoom,
                 dy - 0.5f * h / zoom,
